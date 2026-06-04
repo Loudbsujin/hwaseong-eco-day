@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>화성 에코데이 - 생물자원보전 퀴즈</title>
+<meta name="description" content="화성 에코데이 생물자원보전 퀴즈! 문제를 맞히고 현장 부스에서 경품을 받아가세요." />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="화성 에코데이 - 생물자원보전 퀴즈" />
+<meta property="og:description" content="문제를 맞히고 경품을 받자! 화성 에코데이 생물자원보전 랜덤 퀴즈." />
+<meta property="og:image" content="logo.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="화성 에코데이 - 생물자원보전 퀴즈" />
+<meta name="twitter:description" content="문제를 맞히고 경품을 받자! 화성 에코데이 생물자원보전 랜덤 퀴즈." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gowun+Dodum&family=Jua&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --leaf: #3aa663;
+    --leaf-deep: #1f7a44;
+    --lake: #3b9ad8;
+    --lake-deep: #1f6fa6;
+    --sun: #f6c343;
+    --sun-deep: #d99a14;
+    --berry: #e26d8a;
+    --ink: #1d2a22;
+    --paper: #fbf8ee;
+    --cream: #fff8e1;
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    margin: 0; padding: 0;
+    min-height: 100%;
+    font-family: 'Gowun Dodum', system-ui, sans-serif;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at 8% 10%, #d9efd6 0 14%, transparent 15%),
+      radial-gradient(circle at 92% 18%, #d4ecf8 0 13%, transparent 14%),
+      radial-gradient(circle at 18% 88%, #fcf0c8 0 14%, transparent 15%),
+      radial-gradient(circle at 86% 82%, #e4f3d8 0 13%, transparent 14%),
+      var(--paper);
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    pointer-events: none;
+    z-index: 0;
+    inset: 0;
+    background:
+      repeating-linear-gradient(135deg, rgba(31, 122, 68, 0.05) 0 2px, transparent 2px 22px);
+  }
+
+  .stage {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 28px 18px 60px;
+  }
+
+  .titlebar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 18px;
+    text-align: center;
+  }
+  .titlebar .badge {
+    display: inline-block;
+    background: var(--leaf);
+    color: #fff;
+    border: 3px solid var(--ink);
+    border-radius: 999px;
+    padding: 6px 16px;
+    font-family: 'Jua', sans-serif;
+    font-size: 14px;
+    transform: rotate(-3deg);
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+  .visually-hidden {
+    position: absolute;
+    width: 1px; height: 1px;
+    margin: -1px; padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .logo-card {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 18px auto 4px;
+    padding: 18px 22px;
+    border: 4px solid var(--ink);
+    border-radius: 22px;
+    background: linear-gradient(135deg, #ffffff 0%, #f1faec 100%);
+    box-shadow: 6px 6px 0 var(--ink);
+    position: relative;
+    max-width: min(480px, 92vw);
+  }
+  .logo-card::before {
+    content: '🌿';
+    position: absolute;
+    top: -22px; left: -14px;
+    font-size: 30px;
+    transform: rotate(-18deg);
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.08);
+  }
+  .logo-card::after {
+    content: '💧';
+    position: absolute;
+    bottom: -18px; right: -10px;
+    font-size: 28px;
+    transform: rotate(14deg);
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.08);
+  }
+  .logo-card .logo {
+    display: block;
+    width: 100%;
+    max-width: 360px;
+    height: auto;
+    border-radius: 10px;
+  }
+  .logo-card .logo-fallback {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 6px;
+  }
+  .logo-card .logo-fallback .row {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: clamp(22px, 5vw, 30px);
+    color: var(--leaf-deep);
+    letter-spacing: 1px;
+  }
+  .logo-card .logo-fallback .row .leaf { font-size: 1.2em; }
+  .logo-card .logo-fallback .sub {
+    font-family: 'Jua', sans-serif;
+    font-size: 14px;
+    color: var(--lake-deep);
+  }
+
+  .titlebar .lead {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: clamp(22px, 5.5vw, 30px);
+    color: var(--ink);
+    margin: 6px 0 0;
+    letter-spacing: 0.5px;
+  }
+  .titlebar .lead .accent { color: var(--leaf-deep); }
+  .titlebar .sub {
+    font-family: 'Jua', sans-serif;
+    font-size: 14px;
+    color: #4a5a4f;
+  }
+
+  .card {
+    background: #fff;
+    border: 4px solid var(--ink);
+    border-radius: 22px;
+    box-shadow: 8px 8px 0 var(--ink);
+    padding: 22px 20px;
+    position: relative;
+  }
+  .card::before {
+    content: '문제';
+    position: absolute;
+    top: -16px; left: 22px;
+    padding: 4px 14px;
+    background: var(--sun);
+    transform: rotate(-4deg);
+    border: 3px solid var(--ink);
+    border-radius: 8px;
+    font-family: 'Jua', sans-serif;
+    font-size: 14px;
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+
+  .qhead {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 6px 0 12px;
+  }
+  .qnum {
+    background: var(--leaf);
+    color: #fff;
+    border: 3px solid var(--ink);
+    border-radius: 12px;
+    padding: 4px 14px;
+    font-family: 'Jua', sans-serif;
+    font-size: 18px;
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+  .qtag {
+    font-family: 'Jua', sans-serif;
+    color: var(--lake-deep);
+    font-size: 14px;
+  }
+
+  .qtext {
+    font-family: 'Jua', sans-serif;
+    font-size: clamp(19px, 4.3vw, 24px);
+    line-height: 1.5;
+    margin: 6px 0 18px;
+    word-break: keep-all;
+  }
+
+  .options {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  @media (min-width: 520px) {
+    .options { grid-template-columns: 1fr 1fr; }
+  }
+
+  .opt {
+    appearance: none;
+    text-align: left;
+    background: #fff;
+    border: 3px solid var(--ink);
+    border-radius: 16px;
+    padding: 14px 14px 14px 52px;
+    font-family: 'Gowun Dodum', sans-serif;
+    font-size: 17px;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.15s;
+    box-shadow: 4px 4px 0 var(--ink);
+    color: var(--ink);
+    line-height: 1.4;
+    word-break: keep-all;
+  }
+  .opt:hover:not(:disabled) {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--ink);
+    background: #f3faef;
+  }
+  .opt:active:not(:disabled) {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 var(--ink);
+  }
+  .opt:focus-visible {
+    outline: 3px solid var(--lake-deep);
+    outline-offset: 3px;
+  }
+  .opt .num {
+    position: absolute;
+    left: 10px; top: 50%;
+    transform: translateY(-50%);
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: var(--leaf);
+    border: 2.5px solid var(--ink);
+    color: #fff;
+    font-family: 'Jua', sans-serif;
+    font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+  .opt:nth-child(2) .num { background: var(--lake); }
+  .opt:nth-child(3) .num { background: var(--sun-deep); }
+  .opt:nth-child(4) .num { background: var(--berry); }
+
+  .opt.correct {
+    background: #e4f8da;
+    border-color: var(--leaf-deep);
+    box-shadow: 4px 4px 0 var(--leaf-deep);
+  }
+  .opt.correct .num { background: var(--leaf-deep); }
+  .opt.wrong {
+    background: #ffe1e1;
+    border-color: #c0392b;
+    box-shadow: 4px 4px 0 #c0392b;
+  }
+  .opt.wrong .num { background: #c0392b; }
+  .opt:disabled { cursor: not-allowed; opacity: 0.96; }
+
+  .result {
+    margin-top: 18px;
+    border: 3px dashed var(--ink);
+    border-radius: 18px;
+    padding: 16px;
+    background: #fffbe6;
+    display: none;
+  }
+  .result.show { display: block; animation: pop 0.4s ease; }
+  .result .verdict {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 28px;
+    letter-spacing: 1px;
+  }
+  .result.ok { background: #effbe6; }
+  .result.ok .verdict { color: var(--leaf-deep); }
+  .result.no { background: #fff1f1; }
+  .result.no .verdict { color: #c0392b; }
+  .result .explain {
+    margin-top: 8px;
+    font-family: 'Gowun Dodum', sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    color: #2c352e;
+  }
+  .result .explain b { color: var(--leaf-deep); }
+  .result.no .explain b { color: var(--lake-deep); }
+
+  .prize {
+    display: none;
+    margin-top: 14px;
+    padding: 16px 16px 14px;
+    border: 3px solid var(--sun-deep);
+    border-radius: 18px;
+    background: linear-gradient(135deg, #fff7d6 0%, #fff2bd 100%);
+    box-shadow: 4px 4px 0 var(--sun-deep);
+    position: relative;
+  }
+  .prize.show { display: block; animation: pop 0.4s ease 0.1s both; }
+  .prize .title {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 22px;
+    color: var(--sun-deep);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .prize .body {
+    margin-top: 6px;
+    font-family: 'Gowun Dodum', sans-serif;
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: #4a3a10;
+  }
+
+  .footer-bar {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 18px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    appearance: none;
+    border: 3px solid var(--ink);
+    background: var(--leaf);
+    color: #fff;
+    font-family: 'Jua', sans-serif;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: 4px 4px 0 var(--ink);
+    transition: transform 0.08s, box-shadow 0.08s;
+  }
+  .btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--ink); }
+  .btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--ink); }
+  .btn:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+  .btn.retry { background: var(--lake); }
+  .btn.ghost { background: #fff; color: var(--ink); }
+
+  .stickers {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .stickers span {
+    position: absolute;
+    font-size: 28px;
+    opacity: 0.65;
+    user-select: none;
+    animation: float 7s ease-in-out infinite;
+  }
+  .stickers span:nth-child(1){ top: 7%; left: 5%; animation-delay: 0s; }
+  .stickers span:nth-child(2){ top: 16%; right: 6%; animation-delay: 1.3s; }
+  .stickers span:nth-child(3){ top: 58%; left: 3%; animation-delay: 2.5s; }
+  .stickers span:nth-child(4){ top: 76%; right: 5%; animation-delay: 0.7s; }
+  .stickers span:nth-child(5){ top: 42%; right: 9%; animation-delay: 1.9s; }
+  .stickers span:nth-child(6){ top: 30%; left: 8%; animation-delay: 3.1s; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(-6deg); }
+    50% { transform: translateY(-14px) rotate(6deg); }
+  }
+  @keyframes pop {
+    0% { transform: scale(0.85); opacity: 0; }
+    60% { transform: scale(1.04); opacity: 1; }
+    100% { transform: scale(1); }
+  }
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    20% { transform: translateX(-8px); }
+    40% { transform: translateX(8px); }
+    60% { transform: translateX(-6px); }
+    80% { transform: translateX(6px); }
+  }
+  .shake { animation: shake 0.5s; }
+
+  .confetti {
+    position: fixed;
+    pointer-events: none;
+    inset: 0;
+    overflow: hidden;
+    z-index: 5;
+  }
+  .confetti i {
+    position: absolute;
+    top: -20px;
+    width: 12px; height: 14px;
+    background: var(--leaf);
+    border-radius: 40% 60% 60% 40% / 60% 40% 60% 40%;
+    transform: rotate(20deg);
+    animation: fall 2.6s linear forwards;
+  }
+  @keyframes fall {
+    0% { transform: translateY(-20px) rotate(0deg); }
+    100% { transform: translateY(110vh) rotate(540deg); }
+  }
+
+  .topnote {
+    font-family: 'Jua', sans-serif;
+    text-align: center;
+    color: #4a5a4f;
+    margin-top: 12px;
+    font-size: 13px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stickers span,
+    .confetti i,
+    .shake,
+    .result.show,
+    .prize.show { animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stickers" aria-hidden="true">
+  <span>🌿</span>
+  <span>💧</span>
+  <span>🪷</span>
+  <span>🦦</span>
+  <span>🍃</span>
+  <span>🐦</span>
+</div>
+
+<main class="stage">
+  <div class="titlebar">
+    <h1 class="visually-hidden">화성 에코데이 - 생물자원보전 퀴즈</h1>
+    <span class="badge">화성 에코데이</span>
+    <div class="logo-card">
+      <img class="logo" src="logo.png" alt="화성 에코데이 로고"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+      <div class="logo-fallback" style="display:none;">
+        <div class="row"><span class="leaf">🌿</span><span>화성 에코데이</span><span class="leaf">💧</span></div>
+        <div class="sub">생물자원보전 랜덤 퀴즈</div>
+      </div>
+    </div>
+    <p class="lead"><span class="accent">생물자원보전</span> 문제 맞히고 <span class="accent">경품 받자!</span></p>
+    <span class="sub">정답이면 부스에서 경품 수령! 틀려도 바로 다시 도전 가능!</span>
+  </div>
+
+  <section class="card" id="card">
+    <div class="qhead">
+      <span class="qnum" id="qnum">Q?</span>
+      <span class="qtag">두근두근 랜덤 출제!</span>
+    </div>
+    <p class="qtext" id="qtext"></p>
+    <div class="options" id="options"></div>
+
+    <div class="result" id="result" aria-live="polite">
+      <div class="verdict" id="verdict"></div>
+      <div class="explain" id="explain"></div>
+    </div>
+
+    <div class="prize" id="prize" aria-live="polite">
+      <div class="title"><span aria-hidden="true">🎁</span><span>경품 안내</span></div>
+      <div class="body" id="prizeBody"></div>
+    </div>
+
+    <div class="footer-bar" id="footer"></div>
+  </section>
+
+  <p class="topnote">화성시민과 함께하는 생물자원보전</p>
+</main>
+
+<div class="confetti" id="confetti" aria-hidden="true"></div>
+
+<script>
+  const QUESTIONS = [
+    {
+      q: "습지가 우리에게 주는 좋은 점이 아닌 것은 무엇일까요?",
+      opts: ["물을 깨끗하게 해준다", "다양한 생물의 집이 된다", "홍수를 줄이는 데에 도움이 된다", "쓰레기를 더 많이 만든다"],
+      answer: 3,
+      explain: "습지는 <b>물을 정화</b>하고, <b>다양한 생물의 서식지</b>가 되며, 많은 비가 내릴 때 물을 저장해 <b>홍수를 줄여주는</b> 역할을 합니다."
+    },
+    {
+      q: "비봉습지공원과 같은 습지가 하는 역할로 가장 알맞은 것은?",
+      opts: ["물을 정화하고 생물들의 보금자리가 된다", "놀이기구를 설치하는 공간이 된다", "대형 주차장을 만드는 데 활용된다", "비행기가 이착륙하는 장소가 된다"],
+      answer: 0,
+      explain: "습지는 물 속 오염물질을 걸러주고 주변 환경을 건강하게 유지해 <b>‘자연의 정수기’</b>라고도 불립니다. 또한 홍수 조절과 탄소 흡수 등 중요한 생태적 기능을 수행합니다."
+    },
+    {
+      q: "비봉습지공원에서 실제로 관찰되는 멸종위기 야생생물은 무엇일까요?",
+      opts: ["수달", "캥거루", "북극곰", "코알라"],
+      answer: 0,
+      explain: "비봉습지공원은 물과 습지가 어우러진 생태공간으로, <b>수달</b>을 비롯한 다양한 야생생물이 살아가는 서식지 역할을 합니다."
+    },
+    {
+      q: "시화호는 어떤 과정을 통해 지금의 생태 명소가 되었을까요?",
+      opts: ["사막을 조성해서", "환경 복원 노력을 통해", "화산 폭발로", "자연적으로 갑자기 생겨서"],
+      answer: 1,
+      explain: "시화호는 과거 수질오염 문제가 있었지만, 지속적인 <b>환경 개선과 복원 노력</b>으로 지금은 철새와 다양한 생물이 찾아오는 생태공간으로 변화했습니다."
+    },
+    {
+      q: "시화호는 과거 환경오염 문제를 극복하고 현재는 생태환경이 회복된 곳으로 알려져 있습니다. 그렇다면 시화호에는 어떤 동물들이 찾아올까요?",
+      opts: ["철새", "코끼리", "기린", "캥거루"],
+      answer: 0,
+      explain: "시화호는 생태계가 회복되면서 많은 <b>철새</b>들이 찾아오는 수도권의 대표적인 철새 서식지로 알려져 있습니다."
+    },
+    {
+      q: "시화호와 같은 습지와 호수는 왜 중요할까요?",
+      opts: ["다양한 생물을 보호할 수 있어서", "물을 저장할 수 있어서", "자연을 체험할 수 있어서", "모두 맞다"],
+      answer: 3,
+      explain: "습지와 호수는 <b>다양한 생물의 보금자리</b>일 뿐 아니라 <b>물을 저장</b>하고, 시민들에게 <b>자연을 체험</b>할 수 있는 공간을 제공합니다."
+    },
+    {
+      q: "시화호가 위치한 곳은 어디일까요?",
+      opts: ["화성시·안산시·시흥시 일대", "서울시·인천시·수원시 일대", "부산시·울산시 일대", "강릉시·속초시 일대"],
+      answer: 0,
+      explain: "시화호는 <b>화성시·안산시·시흥시</b>와 맞닿아 있는 큰 호수입니다. 화성시민에게도 가까운 대표 생태자원입니다."
+    },
+    {
+      q: "시화호의 환경보전과 지속가능한 발전을 위해 기업·기관·시민단체 등이 함께 협력하는 협의체의 이름은 무엇일까요?",
+      opts: ["시화호생태협의회", "시화호환경위원회", "시화호지속가능파트너십", "시화호보전협의회"],
+      answer: 2,
+      explain: "<b>시화호지속가능파트너십</b>은 기업·기관·시민단체가 함께 시화호의 환경보전과 지속가능한 발전을 도모하는 협력 협의체입니다."
+    },
+    {
+      q: "화성시가 조성 중인 생물자원보전시설의 주요 목적은 무엇일까요?",
+      opts: ["희귀 생물과 생태자원 보전", "대형 쇼핑몰 운영", "스포츠 경기 개최", "영화 촬영 전용 공간"],
+      answer: 0,
+      explain: "생물자원보전시설은 지역의 <b>생물다양성을 지키고</b>, 시민들이 <b>생태환경의 중요성</b>을 배울 수 있도록 조성되는 공간입니다."
+    },
+    {
+      q: "생물자원보전시설에서 할 수 있는 것은 무엇일까요?",
+      opts: ["생태 전시 관람", "생물다양성 교육 체험", "야생생물 보전 학습", "모두 맞다"],
+      answer: 3,
+      explain: "생물자원보전시설은 <b>전시 관람, 생태교육, 야생생물 보전 학습</b> 등 다양한 기능을 함께 하는 시설로 활용될 예정입니다."
+    },
+    {
+      q: "화성시의 대표 환경전문 공공기관으로 환경교육, 생태보전, 탄소중립 사업을 추진하는 기관은 어디일까요?",
+      opts: ["화성시청", "화성도시공사", "화성문화재단", "화성시환경재단"],
+      answer: 3,
+      explain: "<b>화성시환경재단</b>은 화성시의 환경교육·생태보전·탄소중립 사업을 전담하는 대표 환경전문 공공기관입니다."
+    }
+  ];
+
+  const PRIZE_NOTICE = "정답을 맞히셨어요! 화성 에코데이 현장 안내 부스에서 이 화면을 보여주시면 <b>참여 경품</b>을 받으실 수 있어요. 🌱";
+
+  const els = {
+    card: document.getElementById('card'),
+    qnum: document.getElementById('qnum'),
+    qtext: document.getElementById('qtext'),
+    options: document.getElementById('options'),
+    result: document.getElementById('result'),
+    verdict: document.getElementById('verdict'),
+    explain: document.getElementById('explain'),
+    prize: document.getElementById('prize'),
+    prizeBody: document.getElementById('prizeBody'),
+    footer: document.getElementById('footer'),
+    confetti: document.getElementById('confetti')
+  };
+
+  let state = {
+    idx: -1,
+    locked: false,
+    lastIdx: -1
+  };
+
+  function pickRandomIdx() {
+    if (QUESTIONS.length <= 1) return 0;
+    let n;
+    do {
+      n = Math.floor(Math.random() * QUESTIONS.length);
+    } while (n === state.lastIdx);
+    return n;
+  }
+
+  function renderQuestion() {
+    state.idx = pickRandomIdx();
+    state.lastIdx = state.idx;
+    state.locked = false;
+    const q = QUESTIONS[state.idx];
+
+    els.qnum.textContent = 'Q' + (state.idx + 1);
+    els.qtext.textContent = q.q;
+    els.options.innerHTML = '';
+    q.opts.forEach((text, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'opt';
+      btn.type = 'button';
+      const num = document.createElement('span');
+      num.className = 'num';
+      num.textContent = (i + 1);
+      btn.appendChild(num);
+      btn.appendChild(document.createTextNode(text));
+      btn.addEventListener('click', () => onPick(i, btn));
+      els.options.appendChild(btn);
+    });
+
+    els.result.classList.remove('show', 'ok', 'no');
+    els.prize.classList.remove('show');
+    els.footer.innerHTML = '';
+    clearConfetti();
+  }
+
+  function onPick(i, btn) {
+    if (state.locked) return;
+    state.locked = true;
+    const q = QUESTIONS[state.idx];
+    const buttons = els.options.querySelectorAll('.opt');
+    buttons.forEach(b => b.disabled = true);
+
+    if (i === q.answer) {
+      btn.classList.add('correct');
+      els.result.classList.add('show', 'ok');
+      els.verdict.textContent = '딩동댕! 정답이에요!';
+      els.explain.innerHTML = q.explain || '훌륭해요!';
+      els.prizeBody.innerHTML = PRIZE_NOTICE;
+      els.prize.classList.add('show');
+      fireConfetti();
+      els.footer.innerHTML = '<button class="btn ghost" id="againBtn" type="button">다른 문제도 풀어보기</button>';
+      document.getElementById('againBtn').addEventListener('click', renderQuestion);
+    } else {
+      btn.classList.add('wrong');
+      buttons[q.answer].classList.add('correct');
+      els.card.classList.add('shake');
+      setTimeout(() => els.card.classList.remove('shake'), 600);
+      els.result.classList.add('show', 'no');
+      els.verdict.textContent = '땡! 아쉽지만 오답이에요';
+      const correctNo = q.answer + 1;
+      els.explain.innerHTML = '정답은 <b>' + correctNo + '번</b>이에요. ' + (q.explain || '');
+      els.footer.innerHTML = '<button class="btn retry" id="retryBtn" type="button">다시 도전!</button>';
+      document.getElementById('retryBtn').addEventListener('click', renderQuestion);
+    }
+  }
+
+  function fireConfetti() {
+    const colors = ['#3aa663', '#1f7a44', '#3b9ad8', '#f6c343', '#a8d96a', '#79c9a6'];
+    const total = 80;
+    for (let k = 0; k < total; k++) {
+      const piece = document.createElement('i');
+      piece.style.left = Math.random() * 100 + 'vw';
+      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+      piece.style.animationDelay = (Math.random() * 0.6) + 's';
+      piece.style.animationDuration = (1.7 + Math.random() * 1.6) + 's';
+      piece.style.width = (8 + Math.random() * 8) + 'px';
+      piece.style.height = (10 + Math.random() * 10) + 'px';
+      piece.style.transform = 'rotate(' + (Math.random() * 360) + 'deg)';
+      els.confetti.appendChild(piece);
+    }
+    setTimeout(clearConfetti, 3400);
+  }
+
+  function clearConfetti() {
+    els.confetti.innerHTML = '';
+  }
+
+  renderQuestion();
+</script>
+
+</body>
+</html>
