@@ -699,6 +699,8 @@
 
   const TOTAL = QUESTIONS.length;
   const PASS_THRESHOLD = 5;
+  // 경품 안내 박스 표시 토글 (현재 보류 상태). true로 바꾸면 다시 노출.
+  const SHOW_PRIZE = false;
   const PRIZE_NOTICE = "축하해요! 환타지 화성 현장 안내 부스에서 이 화면을 보여주시면 <b>참여 경품</b>을 받으실 수 있어요. 🌱";
 
   const els = {
@@ -842,8 +844,10 @@
     els.final.classList.add('show', passed ? 'ok' : 'no');
 
     if (passed) {
-      els.prizeBody.innerHTML = PRIZE_NOTICE;
-      els.prize.classList.add('show');
+      if (SHOW_PRIZE) {
+        els.prizeBody.innerHTML = PRIZE_NOTICE;
+        els.prize.classList.add('show');
+      }
       fireConfetti(120);
     } else {
       els.prize.classList.remove('show');
